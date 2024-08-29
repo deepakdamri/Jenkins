@@ -1,0 +1,187 @@
+{
+  "buildCommands": {
+    "Druid": {
+      "compile": "mvn clean package install -DskipTests -Pdist -Prat -Drat.ignoreErrors=true -Dmaven.test.skip=true -Dcheckstyle.skip",
+      "deploy": "mvn deploy -DskipTests -Pdist -Prat -Drat.ignoreErrors=true -Dmaven.test.skip=true -Dcheckstyle.skip"
+    },
+    "Hadoop": {
+      "compile": "mvn clean install -Drequire.snappy=true -Dbundle.snappy=true -Dsnappy.prefix=x -Dsnappy.lib=/usr/lib64 -Drequire.zstd=true -Drequire.pmdk=true -Drequire.fuse=true -Dpmdk.lib=/usr/lib64 -Drequire.openssl=true -Dmaven.javadoc.skip=true -Dhbase.profile=2.0 -Dcontainer-executor.additional_cflags='-std=c99' -DskipTests -DskipITs -Pyarn-ui -Pdist -Pnative -Psrc -Dtar -Denforcer.skip=true",
+      "deploy": "mvn deploy -Drequire.snappy=true -Dbundle.snappy=true -Dsnappy.prefix=x -Dsnappy.lib=/usr/lib64 -Drequire.zstd=true -Drequire.pmdk=true -Drequire.fuse=true -Dpmdk.lib=/usr/lib64 -Drequire.openssl=true -Dmaven.javadoc.skip=true -Dhbase.profile=2.0 -Dcontainer-executor.additional_cflags='-std=c99' -DskipTests -DskipITs -Pyarn-ui -Pdist -Pnative -Psrc -Dtar -Denforcer.skip=true"
+    },
+    "Hive": {
+      "compile": "mvn clean install -Dtar -Psources -DskipTests -Drat.skip=true -Dmaven.javadoc.skip=true -Dallow.root.build -Pdist -Piceberg",
+      "deploy": "mvn deploy -Dtar -Psources -DskipTests -Drat.skip=true -Dmaven.javadoc.skip=true -Dallow.root.build -Pdist -Piceberg"
+    },
+    "Hue": {
+      "compile": "make MAVEN_VERSION=4.10.0.${params.Release_version} apps docs locales",
+      "deploy": ""
+    },
+    "Impala": {
+      "compile": "sh -x ./buildall.sh -notests -release_and_debug",
+      "deploy": ""
+    },
+    "Kafka": {
+      "compile": "./gradlew clean releaseTarGz -x signArchives -PscalaVersion=2.12 --refresh-dependencies",
+      "deploy": "uploadGradleArtifacts('Kafka')"
+    },
+    "Knox": {
+      "compile": "mvn -Ppackage -Prelease clean install -Dmaven.test.skip=true -Drat.skip=true -Dpmd.skip=true -Dfindbugs.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -DskipJSTests -DskipTests -Dmdep.analyze.skip",
+      "deploy": "mvn -Ppackage -Prelease deploy -Dmaven.test.skip=true -Drat.skip=true -Dpmd.skip=true -Dfindbugs.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -DskipJSTests -DskipTests -Dmdep.analyze.skip"
+    },
+    "Nifi": {
+      "compile": "mvn -T 2.0C clean install -Ptargz,include-rules,include-hive3,include-hive1_1,include-hive,include-sql-reporting,include-media,include-ranger,include-asn1,apache-release -DskipTests -Dgpg.skip -Denforcer.skip=true",
+      "deploy": "mvn -T 2.0C deploy -Ptargz,include-rules,include-hive3,include-hive1_1,include-hive,include-sql-reporting,include-media,include-ranger,include-asn1,apache-release -DskipTests -Dgpg.skip -Denforcer.skip=true"
+    },
+    "Phoenix": {
+      "compile": "mvn -Prelease -Drat.numUnapprovedLicenses=200 -Dgpg.skip -Denforcer.skip=true -DskipTests clean install -Dmdep.analyze.skip",
+      "deploy": ""
+    },
+    "Ranger": {
+      "compile": "mvn clean compile package install -Dmaven.test.skip=true -Drat.skip=true -Dpmd.skip=true -Dfindbugs.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -DskipJSTests -DskipTests -Pall,ranger-jdk11,linux-pam",
+      "deploy": "mvn deploy -Dmaven.test.skip=true -Drat.skip=true -Dpmd.skip=true -Dfindbugs.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -DskipJSTests -DskipTests -Pall,ranger-jdk11,linux-pam"
+    },
+    "Schema-Registry": {
+      "compile": "./gradlew clean install build -x test -x check",
+      "deploy": "uploadGradleArtifacts('Registry')"
+    },
+    "Spark3-warehouse-connector": {
+      "compile": "sbt clean compile assembly -mem 2300 -Dpackaging.type=jar",
+      "deploy": ""
+    },
+    "Sqoop": {
+      "compile": "./gradlew clean package -x compileTestJava --info",
+      "deploy": "uploadGradleArtifacts('Sqoop')"
+    },
+    "Tez": {
+      "compile": "mvn clean install -Dtar -Pgpg -Paws -Pazure -Psources -DskipITs -DskipTests",
+      "deploy": "mvn deploy -Dtar -Pgpg -Paws -Pazure -Psources -DskipITs -DskipTests"
+    },
+    "Zookeeper": {
+      "compile": "mvn clean package -DskipTests -Pfull-build",
+      "deploy": "mvn deploy -DskipTests -Pfull-build"
+    }
+  },
+  "^3\\.2\\.[2-4]\\.\\d+-\\d+$": {
+    "order": [
+      "Zookeeper",
+      "Hadoop",
+      "Hbase",
+      "Tez",
+      "Spark2",
+      "Spark3",
+      "Hive",
+      "Kafka",
+      "Kafka3",
+      "Oozie",
+      "Knox",
+      "Ranger",
+      "Ozone",
+      "Hue",
+      "Sqoop",
+      "Livy",
+      "Phoenix",
+      "Zeppelin",
+      "Impala",
+      "Nifi",
+      "Druid",
+      "Schema-Registry",
+      "Spark3-warehouse-connector"
+    ],
+    "Hbase": {
+      "compile": "mvn clean install assembly:single -Prelease -DskipTests -Dhadoop.profile=3.0 -Dhadoop-three.version=3.2.3.${params.Release_version} -Dzookeeper.version=3.5.10.${params.Release_version}",
+      "deploy": "mvn deploy assembly:single -Prelease -DskipTests -Dhadoop.profile=3.0 -Dhadoop-three.version=3.2.3.${params.Release_version} -Dzookeeper.version=3.5.10.${params.Release_version}"
+    },
+    "Livy": {
+      "compile": "mvn clean install package -Drat.skip=true -DskipTests -Dskip=true -DskipITs=true -Dzookeeper.version=3.5.10.${params.Release_version} -Dhadoop.version=3.2.3.${params.Release_version} -Pthriftserver,public-docs,spark-3.0",
+      "deploy": "mvn deploy -Drat.skip=true -DskipTests -Dskip=true -DskipITs=true -Dzookeeper.version=3.5.10.${params.Release_version} -Dhadoop.version=3.2.3.${params.Release_version} -Pthriftserver,public-docs,spark-3.0"
+    },
+    "Oozie": {
+      "compile": "./bin/mkdistro.sh  -Phadoop-3 -Pspark-2 -Puber -Dzookeeper.version=3.5.10.${params.Release_version} -Dhadoop.version=3.2.3.${params.Release_version} -Dhadoop.auth.version=3.2.3.${params.Release_version} -Dhive.version=3.1.4.${params.Release_version} -Dsqoop.version=1.4.7 -Dspark.version=2.4.8 -Dspark.scala.binary.version=2.12 -Djackson.version=2.9.10 -Dmaven.repo.local=${HOME}/.m2/repository  -Dmaven.test.skip=true",
+      "deploy": "mvn deploy -Phadoop-3 -Pspark-2 -Puber -Dzookeeper.version=3.5.10.${params.Release_version} -Dhadoop.version=3.2.3.${params.Release_version} -Dhadoop.auth.version=3.2.3.${params.Release_version} -Dhive.version=3.1.4.${params.Release_version} -Dsqoop.version=1.4.7 -Dspark.version=2.4.8 -Dspark.scala.binary.version=2.12 -Djackson.version=2.9.10 -Dmaven.repo.local=${HOME}/.m2/repository  -Dmaven.test.skip=true"
+    },
+    "Ozone": {
+      "compile": "mvn clean install -DskipTests -Pdist",
+      "deploy": "mvn deploy -DskipTests -Pdist"
+    },
+    "Spark2": {
+      "compile": "sh -x dev/make-distribution.sh --tgz -Phadoop-3.2,hive,hive-thriftserver,yarn,sparkr,mesos,kubernetes,hadoop-cloud,kafka-0-8,odp-common -DskipSparkTests -DskipTests -Dgpg.skip -Dskip=true -Dyarn.version=3.2.3.${params.Release_version} -Dhadoop.version=3.2.3.${params.Release_version}",
+      "deploy": "mvn deploy -Phadoop-3.2,hive,hive-thriftserver,yarn,sparkr,mesos,kubernetes,hadoop-cloud,kafka-0-8,odp-common -DskipSparkTests -DskipTests -Dgpg.skip -Dskip=true -Dyarn.version=3.2.3.${params.Release_version} -Dhadoop.version=3.2.3.${params.Release_version}"
+    },
+    "Spark3": {
+      "compile": "sh -x dev/make-distribution.sh --tgz -Pyarn,hadoop-3.2,sparkr,hive,hive-thriftserver,kubernetes,kafka-0-8,hadoop-cloud -DskipSparkTests -DskipTests -Dgpg.skip -Dskip=true -Dyarn.version=3.2.3.${params.Release_version} -Dhadoop.version=3.2.3.${params.Release_version}",
+      "deploy": "mvn deploy -Pyarn,hadoop-3.2,sparkr,hive,hive-thriftserver,kubernetes,kafka-0-8,hadoop-cloud -DskipSparkTests -DskipTests -Dgpg.skip -Dskip=true -Dyarn.version=3.2.3.${params.Release_version} -Dhadoop.version=3.2.3.${params.Release_version}"
+    },
+    "Spark3-warehouse-connector": {
+      "compile": "sbt clean compile assembly -mem 2300 -Dpackaging.type=jar",
+      "deploy": ""
+    },
+    "Sqoop": {
+      "compile": "./gradlew clean package -x compileTestJava --info",
+      "deploy": "uploadGradleArtifacts('Sqoop')"
+    },
+    "Tez": {
+      "compile": "mvn clean install -Dtar -Pgpg -Paws -Pazure -Psources -DskipITs -DskipTests",
+      "deploy": "mvn deploy -Dtar -Pgpg -Paws -Pazure -Psources -DskipITs -DskipTests"
+    },
+    "Zookeeper": {
+      "compile": "mvn clean package -DskipTests -Pfull-build",
+      "deploy": "mvn deploy -DskipTests -Pfull-build"
+    }
+  },
+  "default": {
+    "order": [
+      "Zookeeper",
+      "Hadoop",
+      "Hbase",
+      "Tez",
+      "Spark3",
+      "Hive",
+      "Kafka",
+      "Kafka3",
+      "Oozie",
+      "Knox",
+      "Ranger",
+      "Ozone",
+      "Hue",
+      "Sqoop",
+      "Livy",
+      "Phoenix",
+      "Zeppelin",
+      "Impala",
+      "Nifi",
+      "Druid",
+      "Schema-Registry",
+      "Spark3-warehouse-connector",
+      "Flink"
+    ],
+
+    "Flink": {
+      "compile": "./mvnw clean package -Dhadoop.version=3.3.6.${params.Release_version} -Dflink.hadoop.version=3.3.6.${params.Release_version} -Dzookeeper.version=3.8.4.${params.Release_version} -Dcurator.version=5.2.0 -Dhive.version=4.0.0.${params.Release_version} -Dkafka.version=3.7.1.${params.Release_version} -DskipTests -Drat.skip=true -Denforcer.skip=true",
+      "deploy": "./mvnw deploy -Dhadoop.version=3.3.6.${params.Release_version} -Dflink.hadoop.version=3.3.6.${params.Release_version} -Dzookeeper.version=3.8.4.${params.Release_version} -Dcurator.version=5.2.0 -Dhive.version=4.0.0.${params.Release_version} -Dkafka.version=3.7.1.${params.Release_version} -DskipTests -Drat.skip=true -Denforcer.skip=true"
+    },
+    "Hbase": {
+      "compile": "mvn clean install assembly:single -Prelease -DskipTests -Dhadoop.profile=3.0 -Dhadoop-three.version=3.3.6.${params.Release_version} -Dzookeeper.version=3.8.4.${params.Release_version} -Drat.skip=true",
+      "deploy": "mvn deploy assembly:single -Prelease -DskipTests -Dhadoop.profile=3.0 -Dhadoop-three.version=3.3.6.${params.Release_version} -Dzookeeper.version=3.8.4.${params.Release_version} -Drat.skip=true"
+    },
+    "Kafka3": {
+      "compile": "./gradlew clean releaseTarGz -PskipSigning=true publishToMavenLocal --refresh-dependencies",
+      "deploy": "./gradlew clean releaseTarGz -PskipSigning=true publishToMavenLocal --refresh-dependencies"
+    },
+    "Livy": {
+      "compile": "mvn clean install package -Drat.skip=true -DskipTests -Dskip=true -DskipITs=true -Dzookeeper.version=3.8.4.${params.Release_version} -Dhadoop.version=3.3.6.${params.Release_version} -Pthriftserver,public-docs,spark-3.0",
+      "deploy": "mvn deploy -Drat.skip=true -DskipTests -Dskip=true -DskipITs=true -Dzookeeper.version=3.8.4.${params.Release_version} -Dhadoop.version=3.3.6.${params.Release_version} -Pthriftserver,public-docs,spark-3.0"
+    },
+    "Ozone": {
+      "compile": "mvn clean install -DskipTests -Pdist,java-11",
+      "deploy": "mvn deploy -DskipTests -Pdist,java-11"
+    },
+    "Spark3": {
+      "compile": "sh -x dev/make-distribution.sh --tgz -Pyarn,hadoop-3.2,sparkr,hive,hive-thriftserver,kubernetes,kafka-0-8,hadoop-cloud -DskipSparkTests -DskipTests -Dgpg.skip -Dskip=true -Dyarn.version=3.3.6.${params.Release_version} -Dhadoop.version=3.3.6.${params.Release_version}",
+      "deploy": "mvn deploy -Pyarn,hadoop-3.2,sparkr,hive,hive-thriftserver,kubernetes,kafka-0-8,hadoop-cloud -DskipSparkTests -DskipTests -Dgpg.skip -Dskip=true -Dyarn.version=3.3.6.${params.Release_version} -Dhadoop.version=3.3.6.${params.Release_version}"
+    },
+    "Zeppelin": {
+      "compile": "mvn -Dhadoop3.3.version=3.3.6.${params.Release_version} -Pspark-3.5 -Pjdbc-hadoop3 -Pjdbc-phoenix -Pscala-2.12 -Phadoop3 -Pweb-angular -Pbuild-distr clean package -DskipTests -am -Denforcer.skip=true",
+      "deploy": "mvn deploy -Dhadoop3.3.version=3.3.6.${params.Release_version} -Pspark-3.5 -Pjdbc-hadoop3 -Pjdbc-phoenix -Pscala-2.12 -Phadoop3 -Pweb-angular -Pbuild-distr -DskipTests -am -Denforcer.skip=true"
+    }
+  }
+}
