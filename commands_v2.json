@@ -40,7 +40,7 @@
       "compile": "mvn clean compile package install -Dmaven.test.skip=true -Drat.skip=true -Dpmd.skip=true -Dfindbugs.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -DskipJSTests -DskipTests -Pall,ranger-jdk11,linux-pam",
       "deploy": "mvn deploy -Dmaven.test.skip=true -Drat.skip=true -Dpmd.skip=true -Dfindbugs.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -DskipJSTests -DskipTests -Pall,ranger-jdk11,linux-pam"
     },
-    "Schema-Registry": {
+    "Registry": {
       "compile": "./gradlew clean install build -x test -x check",
       "deploy": "uploadGradleArtifacts('Registry')"
     },
@@ -84,7 +84,7 @@
       "Impala",
       "Nifi",
       "Druid",
-      "Schema-Registry",
+      "Registry",
       "Spark3-warehouse-connector"
     ],
     "Hbase": {
@@ -150,7 +150,7 @@
       "Impala",
       "Nifi",
       "Druid",
-      "Schema-Registry",
+      "Registry",
       "Spark3-warehouse-connector",
       "Flink"
     ],
