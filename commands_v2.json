@@ -159,7 +159,7 @@
       "deploy": "mvn deploy assembly:single -Prelease -DskipTests -Dhadoop.profile=3.0 -Dhadoop-three.version=3.3.6.${params.Release_version} -Dzookeeper.version=3.8.4.${params.Release_version} -Drat.skip=true"
     },
     "Kafka3": {
-      "compile": "./gradlew clean releaseTarGz -PskipSigning=true publishToMavenLocal --refresh-dependencies",
+      "compile": "./gradlew clean releaseTarGz -PskipSigning=true --refresh-dependencies",
       "deploy": "./gradlew clean releaseTarGz -PskipSigning=true publishToMavenLocal --refresh-dependencies"
     },
     "Livy": {
