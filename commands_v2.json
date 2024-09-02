@@ -25,8 +25,8 @@
       "deploy": "uploadGradleArtifacts('Kafka')"
     },
     "Knox": {
-      "compile": "mvn -Ppackage -Prelease clean install -Dmaven.test.skip=true -Drat.skip=true -Dpmd.skip=true -Dfindbugs.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -DskipJSTests -DskipTests -Dmdep.analyze.skip",
-      "deploy": "mvn -Ppackage -Prelease deploy -Dmaven.test.skip=true -Drat.skip=true -Dpmd.skip=true -Dfindbugs.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -DskipJSTests -DskipTests -Dmdep.analyze.skip"
+      "compile": "mvn -Ppackage -Prelease clean install -Dmaven.test.skip=true -Drat.skip=true -Dpmd.skip=true -Dfindbugs.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -DskipJSTests -DskipTests -Dmdep.analyze.skip -Denforcer.skip=true",
+      "deploy": "mvn -Ppackage -Prelease deploy -Dmaven.test.skip=true -Drat.skip=true -Dpmd.skip=true -Dfindbugs.skip=true -Dspotbugs.skip=true -Dcheckstyle.skip=true -DskipJSTests -DskipTests -Dmdep.analyze.skip -Denforcer.skip=true"
     },
     "Nifi": {
       "compile": "mvn -T 2.0C clean install -Ptargz,include-rules,include-hive3,include-hive1_1,include-hive,include-sql-reporting,include-media,include-ranger,include-asn1,apache-release -DskipTests -Dgpg.skip -Denforcer.skip=true",
