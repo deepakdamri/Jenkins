@@ -42,7 +42,7 @@
     },
     "Registry": {
       "compile": "./gradlew clean install build -x test -x check",
-      "deploy": "uploadGradleArtifacts('Registry')"
+      "deploy": "./gradlew clean build publishMavenJavaPublicationToMavenRepository -x test -x check"
     },
     "Spark3-warehouse-connector": {
       "compile": "sbt clean compile assembly -mem 2300 -Dpackaging.type=jar",
@@ -50,7 +50,7 @@
     },
     "Sqoop": {
       "compile": "./gradlew clean package -x compileTestJava --info",
-      "deploy": "uploadGradleArtifacts('Sqoop')"
+      "deploy": "./gradlew clean package -x compileTestJava publish --info"
     },
     "Tez": {
       "compile": "mvn clean install -Dtar -Pgpg -Paws -Pazure -Psources -DskipITs -DskipTests",
@@ -115,10 +115,6 @@
       "compile": "sbt clean compile assembly -mem 2300 -Dpackaging.type=jar",
       "deploy": ""
     },
-    "Sqoop": {
-      "compile": "./gradlew clean package -x compileTestJava --info",
-      "deploy": "uploadGradleArtifacts('Sqoop')"
-    },
     "Tez": {
       "compile": "mvn clean install -Dtar -Pgpg -Paws -Pazure -Psources -DskipITs -DskipTests",
       "deploy": "mvn deploy -Dtar -Pgpg -Paws -Pazure -Psources -DskipITs -DskipTests"
@@ -154,7 +150,6 @@
       "Spark3-warehouse-connector",
       "Flink"
     ],
-
     "Flink": {
       "compile": "./mvnw clean package -Dhadoop.version=3.3.6.${params.Release_version} -Dflink.hadoop.version=3.3.6.${params.Release_version} -Dzookeeper.version=3.8.4.${params.Release_version} -Dcurator.version=5.2.0 -Dhive.version=4.0.0.${params.Release_version} -Dkafka.version=3.7.1.${params.Release_version} -DskipTests -Drat.skip=true -Denforcer.skip=true",
       "deploy": "./mvnw deploy -Dhadoop.version=3.3.6.${params.Release_version} -Dflink.hadoop.version=3.3.6.${params.Release_version} -Dzookeeper.version=3.8.4.${params.Release_version} -Dcurator.version=5.2.0 -Dhive.version=4.0.0.${params.Release_version} -Dkafka.version=3.7.1.${params.Release_version} -DskipTests -Drat.skip=true -Denforcer.skip=true"
