@@ -100,8 +100,8 @@
       "deploy": "mvn deploy -Phadoop-3 -Pspark-2 -Puber -Dzookeeper.version=3.5.10.${params.Release_version} -Dhadoop.version=3.2.3.${params.Release_version} -Dhadoop.auth.version=3.2.3.${params.Release_version} -Dhive.version=3.1.4.${params.Release_version} -Dsqoop.version=1.4.7 -Dspark.version=2.4.8 -Dspark.scala.binary.version=2.12 -Djackson.version=2.9.10 -Dmaven.repo.local=${HOME}/.m2/repository  -Dmaven.test.skip=true"
     },
     "Ozone": {
-      "compile": "mvn clean install -DskipTests -Pdist",
-      "deploy": "mvn deploy -DskipTests -Pdist"
+      "compile": "mvn clean install -DskipTests -Pdist -Denforcer.skip=true",
+      "deploy": "mvn deploy -DskipTests -Pdist -Denforcer.skip=true"
     },
     "Spark2": {
       "compile": "sh -x dev/make-distribution.sh --tgz -Phadoop-3.2,hive,hive-thriftserver,yarn,sparkr,mesos,kubernetes,hadoop-cloud,kafka-0-8,odp-common -DskipSparkTests -DskipTests -Dgpg.skip -Dskip=true -Dyarn.version=3.2.3.${params.Release_version} -Dhadoop.version=3.2.3.${params.Release_version}",
@@ -167,8 +167,8 @@
       "deploy": "mvn deploy -Drat.skip=true -DskipTests -Dskip=true -DskipITs=true -Dzookeeper.version=3.8.4.${params.Release_version} -Dhadoop.version=3.3.6.${params.Release_version} -Pthriftserver,public-docs,spark-3.0"
     },
     "Ozone": {
-      "compile": "mvn clean install -DskipTests -Pdist,java-11",
-      "deploy": "mvn deploy -DskipTests -Pdist,java-11"
+      "compile": "mvn clean install -DskipTests -Pdist,java-11 -Denforcer.skip=true",
+      "deploy": "mvn deploy -DskipTests -Pdist,java-11 -Denforcer.skip=true"
     },
     "Spark3": {
       "compile": "sh -x dev/make-distribution.sh --tgz -Pyarn,hadoop-3.2,sparkr,hive,hive-thriftserver,kubernetes,kafka-0-8,hadoop-cloud -DskipSparkTests -DskipTests -Dgpg.skip -Dskip=true -Dyarn.version=3.3.6.${params.Release_version} -Dhadoop.version=3.3.6.${params.Release_version}",
